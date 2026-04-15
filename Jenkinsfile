@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Hemanth-bs/MyMavenWebApp.git'
+                git branch: 'master', url: 'https://github.com/Rajathaaa/MyMavenWebApp01.git'
             }
         }
 
@@ -26,19 +26,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh '''
-                echo "Stopping Tomcat..."
-                sudo systemctl stop tomcat || true
-
-                echo "Removing old deployment..."
-                rm -rf /opt/tomcat/webapps/MyMavenWebApp*
-                
-                echo "Deploying new WAR..."
-                cp target/*.war /opt/tomcat/webapps/
-
-                echo "Starting Tomcat..."
-                sudo systemctl start tomcat
-                '''
+                sh 'mvn clean package'
             }
         }    
     }
