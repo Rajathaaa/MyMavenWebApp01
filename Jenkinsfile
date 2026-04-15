@@ -1,34 +1,38 @@
 pipeline {
-    agent any  
+    agent any  // Use any available agent
 
     tools {
-        maven 'Maven'  
+        maven 'Maven'  // Ensure this matches the name configured in Jenkins
     }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/Rajathaaa/MyMavenWebApp01.git'
+                git branch: 'master', url: 'https://github.com/numankhanssk/MymavenWebApp01.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package'  // Run Maven build
             }
         }
 
-        stage('Archive') {
+        stage('Test') {
             steps {
-                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+                sh 'mvn test'  // Run unit tests
             }
         }
 
-        stage('Deploy') {
+        
+        
+       
+        stage('Deploy WAR') {
             steps {
-                sh 'mvn clean package'
+                sh 'cp target/MyMavenWebApp01.war /opt/tomcat/webapps/'
             }
-        }    
+        }
+
+        
     }
 
     post {
